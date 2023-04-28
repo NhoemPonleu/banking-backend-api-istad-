@@ -7,15 +7,16 @@ import com.example.api.mapper.UserMapper;
 import com.example.api.model.User;
 import com.example.api.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.springframework.web.server.ResponseStatusException;
 
 @RequiredArgsConstructor
 @Service
 @Component
+@Slf4j
 public class UserServiceImpl implements UserService {
  private final UserMapper userMapper;
  private final UserMapStruct userMapStruct;
@@ -23,16 +24,41 @@ public class UserServiceImpl implements UserService {
     public UserDto createNewUser(CreateUserDto createUserDto) {
        User user=userMapStruct.fromCreateUserDtoToUser(createUserDto);
        userMapper.insert(user);
-        return userMapStruct.userToUserDto(user);
+       log.info("User={}"+user.getId());
+        return this.getById(user.getId());
+    }
+    @Override
+    public UserDto getById(Integer id) {
+        User userId=userMapper.slectById(id).orElseThrow(()->
+                new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        String.format("User with %d is not found",id)));
+        return userMapStruct.userToUserDto(userId);
     }
 
     @Override
-    public List<UserDto> getAllUser() {
-        List<User>list=userMapper.selectAllUser();
-        List<UserDto>acc=list.stream()
-                .map(list1->new UserDto(list1.getName(),list1.getGender(),list1.getStudentCardId(),list1.getIsDeleted()))
-                .toList();
-        return acc;
+    public Integer deleteUserById(Integer id) {
+      // UserDto idUser= getById(id);
+       boolean isFound=userMapper.existById(id);
+        if(isFound){
+            userMapper.deleteUserById(id);
+            return id;
+        }
+        throw  new ResponseStatusException(HttpStatus.NOT_FOUND,String
+                .format("User with %d not found"+id));
     }
+
+    @Override
+    public Integer updateIsDeletedStatus(Integer id ,boolean status) {
+        boolean isExisted=userMapper.existById(id);
+        if(isExisted){
+            userMapper.updateisDeletedById(id,status);
+            return  id;
+        }
+
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND
+                ,String.format("User with %d is not found",id));
+    }
+
+
 
 }

@@ -5,8 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 @Builder
 public record CreateUserDto(@NotBlank String name,
-                           @NotBlank String gender,
+                            @NotBlank String gender,
                             String studentCardId,
                             Boolean isStudent,
-                           @NotNull String oneSignalId) {
+                            @NotNull String oneSignalId) {
 }
