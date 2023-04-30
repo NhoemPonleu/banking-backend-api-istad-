@@ -1,8 +1,8 @@
 package com.example.api.provider;
 
+import com.example.api.filter.UserFilter;
 import com.example.api.model.User;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.jdbc.SQL;
 public class UserProvider {
     public String insertUser(@Param("u") User user){
@@ -55,4 +55,41 @@ public class UserProvider {
 //
 //        }}.toString();
 //    }
+    public String buildSelectSql(){
+        return new SQL(){{
+            SELECT("*");
+            FROM("users");
+            WHERE("is_deleted=FALSE");
+            ORDER_BY("id DESC");
+        }}.toString();
+    }
+    public String updateUserSql(){
+        return  new SQL(){{
+            UPDATE("users");
+            SET("name=#{name}");
+            SET("gender=#{gender}");
+            WHERE("id=#{id}");
+        }}.toString();
+    }
+    public String searchByNameUser(UserFilter filter){
+        return new SQL(){{
+            SELECT("id,name");
+            FROM("users");
+            if (filter.getId() != null) {
+                WHERE("id like #{id}");
+            }
+            if (filter.getName() != null) {
+                WHERE("name like #{name}");
+            }
+
+        }}.toString();
+    }
+    public String searchByName(){
+        return  new SQL(){{
+            SELECT("*");
+            FROM("users");
+            WHERE("name=#{name}","is_deleted=FALSE");
+
+        }}.toString();
+    }
 }

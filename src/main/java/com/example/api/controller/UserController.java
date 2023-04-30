@@ -1,15 +1,14 @@
 package com.example.api.controller;
 
 import com.example.api.base.BaseRest;
+import com.example.api.filter.UserFilter;
 import com.example.api.dto.CreateUserDto;
 import com.example.api.dto.IsDeletedDto;
 import com.example.api.dto.UserDto;
-import com.example.api.model.User;
 import com.example.api.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -54,6 +53,33 @@ public class UserController {
                 .data(deleteId)
                 .build();
     }
+    @GetMapping
+    public BaseRest<?>findAllUser(@RequestParam(name="page",required = false,defaultValue ="1") int page,
+                                  @RequestParam(name="limit",required = false,defaultValue = "20") int limit){
+
+        return BaseRest.builder()
+                .code(200).status(true)
+                .message("Page Has Been Found")
+                .data(userService.pages(page,limit))
+                .build();
+    }
+    @GetMapping("/search/{name}")
+    public BaseRest<?>searchUser(@RequestParam UserFilter userFilter){
+        return BaseRest.builder()
+                .code(200).status(true)
+                .message("Page Has Been Found")
+                .data( userService.searchByName(userFilter))
+                .build();
+    }
+        @GetMapping("/searchByName/{name}")
+    public BaseRest<?>searchUserByname(@PathVariable String name){
+        return BaseRest.builder()
+                .code(200).status(true)
+                .message("Page Has Been Found")
+                .data( userService.toSearchName(name))
+                .build();
+    }
+
 
 
 }

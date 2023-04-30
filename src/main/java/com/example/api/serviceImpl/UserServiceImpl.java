@@ -1,17 +1,23 @@
 package com.example.api.serviceImpl;
 
+import com.example.api.filter.UserFilter;
 import com.example.api.dto.CreateUserDto;
+import com.example.api.dto.UpdateUserDto;
 import com.example.api.dto.UserDto;
 import com.example.api.mapper.UserMapStruct;
 import com.example.api.mapper.UserMapper;
 import com.example.api.model.User;
 import com.example.api.service.UserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -59,6 +65,38 @@ public class UserServiceImpl implements UserService {
                 ,String.format("User with %d is not found",id));
     }
 
+    @Override
+    public PageInfo<UserDto> pages(int page, int limit) {
+      PageInfo<User>userPageInfo=PageHelper.startPage(page,limit)
+                .doSelectPageInfo(userMapper::select);
+        //call repository
+      //  userMapper.select();
+        return userMapStruct.userPageInfotoUserDtoPageInfo(userPageInfo);
+    }
+
+    @Override
+    public UserDto updateUserById(Integer id, UpdateUserDto userDto) {
+//        User userId=userMapper.slectById(id).orElseThrow(()->
+//                new ResponseStatusException(HttpStatus.NOT_FOUND,
+//                        String.format("User with %d is not found",id)));
+//        user1=userMapStruct.updateDtoToUser(userDto);
+//        userMapper.updateById(id);
+        if(userMapper.existById(id)){
+            userMapStruct.updateDtoToUser(userDto);
+        }
+        return null;
+    }
+
+    @Override
+    public List<User> searchByName(UserFilter userFilter) {
+        return userMapper.search(userFilter);
+    }
+
+    @Override
+    public User toSearchName(String name) {
+
+        return userMapper.searchUser(name);
+    }
 
 
 }
