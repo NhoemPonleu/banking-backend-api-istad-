@@ -9,6 +9,7 @@ import com.example.api.model.User;
 import com.example.api.service.AccountTypeService;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class AccountTypeServiceImpl implements AccountTypeService {
 
     @Override
     public AccountTypeDto insertAccount(AccountTypeDto accountTypeDto) {
-       AccountType type= accountTypeMapper1.toUser(accountTypeDto);
+       AccountType type= accountTypeMapper1.toAccountType(accountTypeDto);
         accountTypeMapper.insertAccountType(type);
         return accountTypeDto;
     }
@@ -48,9 +49,11 @@ public class AccountTypeServiceImpl implements AccountTypeService {
     }
 
     @Override
-    public AccountType updateAccount(Integer id, UpdateAccountDto typeDto) {
+    public AccountType updateAccount(Integer id, AccountType type) {
+
       AccountTypeDto getId=getAccountById(id);
-        accountTypeMapper.updateAccountType(id,typeDto);
+        BeanUtils.copyProperties(type,getId,"id");
+         // accountTypeMapper.updateAccountType(id,type);
         return null;
     }
     @Override

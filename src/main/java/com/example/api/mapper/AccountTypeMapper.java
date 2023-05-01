@@ -28,5 +28,5 @@ public interface AccountTypeMapper {
     @DeleteProvider(type = AccountTypeProvider.class,method = "deleteIdUser")
     void deleteAccountTpeById(@Param("id") Integer id);
     @UpdateProvider(type = AccountTypeProvider.class,method = "updateAccountTypeById")
-    void updateAccountType(@Param("id")Integer id ,@Param("name") UpdateAccountDto accountType);
+    void updateAccountType(@Param("id")Integer id ,@Param("name") AccountType Type);
 }

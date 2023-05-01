@@ -12,7 +12,7 @@ public interface AccountTypeService {
     List<AccountTypeDto> findAllAccount() ;
     AccountTypeDto insertAccount(AccountTypeDto accountTypeDto);
     AccountTypeDto getAccountById(Integer id);
-    AccountType updateAccount(Integer id, UpdateAccountDto typeDto);
+    AccountType updateAccount(Integer id, AccountType type);
     Integer deleteAccountTypeById(Integer id);
 
 }

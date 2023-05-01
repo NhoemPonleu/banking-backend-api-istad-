@@ -3,6 +3,7 @@ package com.example.api.controller;
 import com.example.api.base.BaseRest;
 import com.example.api.dto.AccountTypeDto;
 import com.example.api.dto.UpdateAccountDto;
+import com.example.api.mapper.AccountTypeMapper1;
 import com.example.api.model.AccountType;
 import com.example.api.service.AccountTypeService;
 import jakarta.validation.Valid;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @RequestMapping("/account-type")
 public class AccountTypeController {
     private final AccountTypeService accountTypeService;
+    private final AccountTypeMapper1 accountTypeMapper1;
     @GetMapping
     public BaseRest<?>selectAllAccount(){
         var accountTypeDtoList=accountTypeService.findAllAccount();
@@ -45,13 +47,13 @@ public class AccountTypeController {
                 .build();
     }
     @PutMapping("/{id}")
-    public BaseRest<?>updateAccount(@PathVariable Integer id , @RequestBody UpdateAccountDto accountTypeDto){
+    public BaseRest<?>updateAccount(@PathVariable("id") Integer id , @RequestBody AccountTypeDto accountTypeDto){
+      AccountType type=accountTypeMapper1.toAccountType(accountTypeDto);
 
-        AccountType deleteId= accountTypeService.updateAccount(id,accountTypeDto);
         return  BaseRest.builder()
                 .code(200).status(true)
                 .message("Account Has Been Updated")
-                .data(deleteId)
+                .data(accountTypeService.updateAccount(id,type))
                 .build();
     }
     @DeleteMapping("/{id}")
