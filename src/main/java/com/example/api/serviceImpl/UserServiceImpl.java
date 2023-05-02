@@ -102,8 +102,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> search(SearchUserDto userDto) {
         if(userMapper.existByName(userDto.name())){
+            System.out.println("hello");
             return userMapStruct.list(userMapper.searchMultiple(userDto));
-
         }else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,String.format(
                     "User with name %s is not found",userDto.name()

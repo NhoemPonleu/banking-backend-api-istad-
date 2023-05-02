@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -17,4 +19,5 @@ public class User {
     private String studentCardId;
     private Boolean isStudent;
     private Boolean isDeleted;
+    List<AccountType> typeList;
 }

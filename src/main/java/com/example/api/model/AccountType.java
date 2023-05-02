@@ -2,6 +2,8 @@ package com.example.api.model;
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -9,4 +11,5 @@ import lombok.*;
 public class AccountType {
     private  Integer id;
     private String name;
+    List<User> user;
 }

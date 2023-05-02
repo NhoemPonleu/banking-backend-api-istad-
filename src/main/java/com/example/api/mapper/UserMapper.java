@@ -44,7 +44,7 @@ public interface UserMapper {
     @SelectProvider(type = UserProvider.class,method = "searchMultipleUser")
     @ResultMap("userResultMap")
     List<User>searchMultiple(@Param("name")SearchUserDto userDto);
-    @Select("SELECT EXISTS (SELECT * FROM users WHERE name=#{name})")
+    @Select("SELECT EXISTS (SELECT * FROM users WHERE name iLIKE CONCAT ('%',#{name},'%'))")
     boolean existByName(@Param("name") String name);
 
 }
