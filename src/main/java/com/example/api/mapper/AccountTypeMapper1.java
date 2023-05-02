@@ -11,7 +11,8 @@ import java.util.List;
 public interface AccountTypeMapper1 {
     List<AccountTypeDto>toDtoList(List<AccountType>model);
     AccountTypeDto toDto(AccountType model);
-    AccountType toAccountType(AccountTypeDto accountTypeDto);
+    AccountType toAccountType(UpdateAccountDto AccountTypeDto);
+    AccountType toCreate(AccountTypeDto accountTypeDto);
    // User update(UpdateAccountDto accc);
 
 

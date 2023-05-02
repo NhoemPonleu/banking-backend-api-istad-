@@ -10,9 +10,9 @@ import java.util.List;
 @Service
 public interface AccountTypeService {
     List<AccountTypeDto> findAllAccount() ;
-    AccountTypeDto insertAccount(AccountTypeDto accountTypeDto);
+    AccountTypeDto insertAccount(AccountTypeDto accountType);
     AccountTypeDto getAccountById(Integer id);
-    AccountType updateAccount(Integer id, AccountType type);
+    AccountTypeDto updateAccount(Integer id, UpdateAccountDto updateAccountDto);
     Integer deleteAccountTypeById(Integer id);
 
 }

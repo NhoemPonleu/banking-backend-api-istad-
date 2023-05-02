@@ -1,5 +1,6 @@
 package com.example.api.mapper;
 
+import com.example.api.dto.SearchUserDto;
 import com.example.api.filter.UserFilter;
 import com.example.api.model.User;
 import com.example.api.provider.UserProvider;
@@ -40,5 +41,10 @@ public interface UserMapper {
     List<User> search(UserFilter filter);
     @SelectProvider(type = UserProvider.class,method = "searchByName")
     User searchUser(String name);
+    @SelectProvider(type = UserProvider.class,method = "searchMultipleUser")
+    @ResultMap("userResultMap")
+    List<User>searchMultiple(@Param("name")SearchUserDto userDto);
+    @Select("SELECT EXISTS (SELECT * FROM users WHERE name=#{name})")
+    boolean existByName(@Param("name") String name);
 
 }

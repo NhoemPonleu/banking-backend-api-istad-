@@ -1,6 +1,7 @@
 package com.example.api.controller;
 
 import com.example.api.base.BaseRest;
+import com.example.api.dto.SearchUserDto;
 import com.example.api.filter.UserFilter;
 import com.example.api.dto.CreateUserDto;
 import com.example.api.dto.IsDeletedDto;
@@ -72,11 +73,11 @@ public class UserController {
                 .build();
     }
         @GetMapping("/searchByName/{name}")
-    public BaseRest<?>searchUserByname(@PathVariable String name){
+    public BaseRest<?>searchUserByname(SearchUserDto userDto){
         return BaseRest.builder()
                 .code(200).status(true)
-                .message("Page Has Been Found")
-                .data( userService.toSearchName(name))
+                .message("User Has Been Found")
+                .data(userService.search(userDto))
                 .build();
     }
 

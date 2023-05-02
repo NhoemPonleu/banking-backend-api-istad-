@@ -8,6 +8,8 @@ import com.github.pagehelper.PageInfo;
 import lombok.Builder;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface UserMapStruct {
     User fromCreateUserDtoToUser(CreateUserDto createUserDto);
@@ -15,4 +17,5 @@ public interface UserMapStruct {
   //  User userDtoToUser(UserDto userDto);
     PageInfo<UserDto>userPageInfotoUserDtoPageInfo(PageInfo<User>pageInfo);
     User updateDtoToUser(UpdateUserDto userDto);
+    List<UserDto>list(List<User> user);
 }

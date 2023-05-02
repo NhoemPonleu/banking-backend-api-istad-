@@ -23,10 +23,11 @@ public interface AccountTypeMapper {
    int deleteById(int id);
    @SelectProvider(type = AccountTypeProvider.class,method = "getAccountTypeById1")
     Optional<AccountType> slectById(@Param("id") Integer id);
-    @Select("SELECT EXISTS(SELECT * FROM account_types WHERE id=#{id})")
+    @Select("SELECT EXISTS (SELECT * FROM account_types WHERE id=#{id})")
     boolean existById(@Param("id") Integer id);
     @DeleteProvider(type = AccountTypeProvider.class,method = "deleteIdUser")
     void deleteAccountTpeById(@Param("id") Integer id);
+
     @UpdateProvider(type = AccountTypeProvider.class,method = "updateAccountTypeById")
-    void updateAccountType(@Param("id")Integer id ,@Param("name") AccountType Type);
+    void updateAccountType(@Param("a") AccountType Type);
 }

@@ -1,5 +1,6 @@
 package com.example.api.service;
 
+import com.example.api.dto.SearchUserDto;
 import com.example.api.filter.UserFilter;
 import com.example.api.dto.CreateUserDto;
 import com.example.api.dto.UpdateUserDto;
@@ -21,4 +22,5 @@ public interface UserService {
     UserDto updateUserById(Integer id, UpdateUserDto userDto);
     List<User> searchByName(UserFilter userFilter);
     User toSearchName(String name);
+    List<UserDto>search(SearchUserDto userDto);
 }

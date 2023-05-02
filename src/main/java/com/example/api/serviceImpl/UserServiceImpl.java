@@ -1,5 +1,6 @@
 package com.example.api.serviceImpl;
 
+import com.example.api.dto.SearchUserDto;
 import com.example.api.filter.UserFilter;
 import com.example.api.dto.CreateUserDto;
 import com.example.api.dto.UpdateUserDto;
@@ -96,6 +97,18 @@ public class UserServiceImpl implements UserService {
     public User toSearchName(String name) {
 
         return userMapper.searchUser(name);
+    }
+
+    @Override
+    public List<UserDto> search(SearchUserDto userDto) {
+        if(userMapper.existByName(userDto.name())){
+            return userMapStruct.list(userMapper.searchMultiple(userDto));
+
+        }else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,String.format(
+                    "User with name %s is not found",userDto.name()
+            ));
+        }
     }
 
 

@@ -32,8 +32,8 @@ public class AccountTypeProvider {
     public String updateAccountTypeById(){
         return new SQL(){{
             UPDATE("account_types");
-            SET("name=#{name}");
-            WHERE("id=#{id}");
+            SET("name=#{a.name}");
+            WHERE("id=#{a.id}");
         }}.toString();
     }
     public String deleteIdUser(){
@@ -42,4 +42,5 @@ public class AccountTypeProvider {
             WHERE("id=#{id}");
         }}.toString();
     }
+
 }

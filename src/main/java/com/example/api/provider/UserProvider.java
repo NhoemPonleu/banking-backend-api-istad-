@@ -92,4 +92,11 @@ public class UserProvider {
 
         }}.toString();
     }
+    public String searchMultipleUser(){
+        return new SQL(){{
+            SELECT("*");
+            FROM("users");
+            WHERE("name iLIKE CONCAT ('%',#{name.name},'%')");
+        }}.toString();
+    }
 }

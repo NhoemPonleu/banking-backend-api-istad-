@@ -47,13 +47,13 @@ public class AccountTypeController {
                 .build();
     }
     @PutMapping("/{id}")
-    public BaseRest<?>updateAccount(@PathVariable("id") Integer id , @RequestBody AccountTypeDto accountTypeDto){
-      AccountType type=accountTypeMapper1.toAccountType(accountTypeDto);
+    public BaseRest<?>updateAccount(@PathVariable("id") Integer id , @RequestBody UpdateAccountDto accountTypeDto){
+     AccountTypeDto dto=accountTypeService.updateAccount(id,accountTypeDto);
 
         return  BaseRest.builder()
                 .code(200).status(true)
                 .message("Account Has Been Updated")
-                .data(accountTypeService.updateAccount(id,type))
+                .data(dto)
                 .build();
     }
     @DeleteMapping("/{id}")

@@ -33,10 +33,10 @@ public class AccountTypeServiceImpl implements AccountTypeService {
     }
 
     @Override
-    public AccountTypeDto insertAccount(AccountTypeDto accountTypeDto) {
-       AccountType type= accountTypeMapper1.toAccountType(accountTypeDto);
-        accountTypeMapper.insertAccountType(type);
-        return accountTypeDto;
+    public AccountTypeDto insertAccount(AccountTypeDto accountType) {
+       AccountType type= accountTypeMapper1.toCreate(accountType);
+       accountTypeMapper.insertAccountType(type);
+        return accountType;
     }
 
     @Override
@@ -49,13 +49,19 @@ public class AccountTypeServiceImpl implements AccountTypeService {
     }
 
     @Override
-    public AccountType updateAccount(Integer id, AccountType type) {
-
-      AccountTypeDto getId=getAccountById(id);
-        BeanUtils.copyProperties(type,getId,"id");
-         // accountTypeMapper.updateAccountType(id,type);
-        return null;
+    public AccountTypeDto updateAccount(Integer id, UpdateAccountDto updateAccountDto) {
+        AccountType accountType;
+        if(accountTypeMapper.existById(id)){
+            accountType=accountTypeMapper1.toAccountType(updateAccountDto);
+            accountType.setId(id);
+            accountTypeMapper.updateAccountType(accountType);
+            return this.getAccountById(id);
+        }
+       throw  new ResponseStatusException(HttpStatus.NOT_FOUND,
+               String.format("Account with %d is not found",id));
     }
+
+
     @Override
     public Integer deleteAccountTypeById(Integer id) {
         boolean isFound=accountTypeMapper.existById(id);
